@@ -19,11 +19,10 @@ FSJS project 2 - List Filter and Pagination
 
 
 const list = document.getElementsByClassName('student-item cf');
-const page = Math.ceil(list.length / 10);
-
+const page = 0;
 
 console.log(list);
-console.log(page)
+console.log(page);
 /*** 
    Create the `showPage` function to hide all of the items in the 
    list except for the ten you want to show.
@@ -51,16 +50,13 @@ function showPage(list, page) {
          let lastIndex = page * 10;
             for (i = 0; i < list.length; i ++) {
                if (i >= firstIndex && i <= lastIndex) {
-                  list.style.display = '';
-               }
-            }
-         return page;
-         
+                  list[i].style.display = '';
+               } else {
+                  list[i].style.display = 'none'
+               }
+            }         
          }
-   
-   
-console.log(showPage());
-
+   console.log(showPage(list, 1));
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
