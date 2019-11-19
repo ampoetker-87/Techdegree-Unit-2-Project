@@ -45,26 +45,24 @@ function showPage(list, page) {
          -- && the list item index is <= the index of the last item
          that should be shown on the page, show it
          */
-         list = '';
          let firstIndex = (page * 10) - 10;
          let lastIndex = page * 10;
             for (i = 0; i < list.length; i ++) {
-               if (i >= firstIndex && i <= lastIndex) {
+               if (i >= firstIndex && i < lastIndex) {
                   list[i].style.display = '';
                } else {
                   list[i].style.display = 'none'
                }
             }         
          }
-   console.log(showPage(list, 1));
+   showPage(list, 1);
 
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
-const appendPageLinks = (list) => {
-   /*
+/*
    1. Determine how many pages are needed for the list by dividing the
    total number of list items by the max number of items per page
    2. Create a div, give it the “pagination” class, and append it to the .page div
@@ -76,11 +74,28 @@ const appendPageLinks = (list) => {
    7. Add the active class to the link that was just clicked. You can identify that
    clicked link using event.target
    */
-  const studentsPerPage = 10;
-  const numPages = Math.ceil(list.length / studentsPerPage);
 
+const appendPageLinks = (list) => {
+   
+   const numPages = Math.ceil(list.length / 10);
+   let div = document.createElement('div');
+   div.className = 'pagination';
+   let page = document.querySelector('.page');
+   page.appendChild(div);
+   let ul = docoument.createElement('ul')
+   div.appendChild(ul);
+
+   for(i = 0; i <= numPages; i += 1) {
+      let li = document.createElement('li');
+      let a = document.createElement('a')
+      li.appendChild(a);
+      ul.appendChild(li);
+      a.href = '#'
+      a.textContent = i;
    }
+}
 
+appendPageLinks(list);
 
 
 
