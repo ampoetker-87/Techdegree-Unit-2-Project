@@ -77,10 +77,45 @@ const appendPageLinks = (list) => {
          showPage(list, a.textContent)
       });
    }
-
-   
 }
 
 // The appendPageLinks function is called to append the links to the bottom of the page
 appendPageLinks(list);
+
+let searchDiv = document.createElement('div');
+searchDiv.className = 'student-search';
+let pageHeader = document.querySelector('.page-header');
+pageHeader.appendChild(searchDiv);
+let inputArea = document.createElement('input');
+inputArea.className = 'student-search input';
+inputArea.placeholder = 'Search for students...';
+searchDiv.appendChild(inputArea);
+let searchButton = document.createElement('button');
+searchButton.className = 'student-search button';
+searchDiv.insertBefore(searchButton, searchDiv.lastChild);
+searchButton.textContent = 'Search';
+let studentNames = document.getElementsByTagName('h3');
+let inputValue = inputArea.value.toUpperCase();
+
+
+const search = (inputValue, list) => {
+for (i = 0; i < studentNames.length; i++) {
+   if (inputArea.value.toUpperCase() > -1) {
+     list[i].style.display = "";
+   } else {
+     list[i].style.display = "none";
+   }
+   }
+}
+
+searchButton.addEventListener('click', (event) => {
+   event.preventDefault();
+   inputArea.inputValue;
+   search(inputValue, list);
+})
+
+
+
+
+
 
