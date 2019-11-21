@@ -23,20 +23,19 @@ const page = 0;
  is less than the list length.
  */
 function showPage(list, page) {
-   let firstIndex = (page * 10) - 10;
-   let lastIndex = page * 10;
-      for (i = 0; i < list.length; i ++) {
-         if (i >= firstIndex && i < lastIndex) {
-            list[i].style.display = '';
-         } else {
-            list[i].style.display = 'none'
+         let firstIndex = (page * 10) - 10;
+         let lastIndex = page * 10;
+            for (i = 0; i < list.length; i ++) {
+               if (i >= firstIndex && i < lastIndex) {
+                  list[i].style.display = '';
+               } else {
+                  list[i].style.display = 'none'
+               }
+            }         
          }
-      }         
-   }
 
 // Calling the showPage function below produces our first page and list of 10 students
 showPage(list, 1);
-
 
 /***
  * The appendPageLinks function will produce links for every page of students that can be navigated through.
@@ -83,9 +82,6 @@ const appendPageLinks = (list) => {
 // The appendPageLinks function is called to append the links to the bottom of the page
 appendPageLinks(list);
 
-
-// The variables and styles below create the search bar
-
 let searchDiv = document.createElement('div');
 searchDiv.className = 'student-search';
 let pageHeader = document.querySelector('.page-header');
@@ -98,37 +94,22 @@ let searchButton = document.createElement('button');
 searchButton.className = 'student-search button';
 searchDiv.insertBefore(searchButton, searchDiv.lastChild);
 searchButton.textContent = 'Search';
-let studentNames = document.getElementsByTagName('h3');
+let studentNames = document.getElementsByTagName('h3');
+let inputValue = inputArea.value.toUpperCase();
 
-// The function below is the search function that compares the input value against the student list
 
-const search = (value, list) => {
-   for (i = 0; i < studentNames.length; i++) {
-      if (studentNames[i].innerText.toUpperCase().includes(inputArea.value.toUpperCase())) {
-      list[i].style.display = "";
-      } else {
-      list[i].style.display = "none";
-      }
+const search = (inputValue, list) => {
+for (i = 0; i < studentNames.length; i++) {
+   if (inputArea.value.toUpperCase() > -1) {
+     list[i].style.display = "";
+   } else {
+     list[i].style.display = "none";
+   }
    }
 }
 
-// Event listener for search button
 searchButton.addEventListener('click', (event) => {
    event.preventDefault();
-   inputArea.value;
-   search(inputArea.value, list);
+   inputArea.inputValue;
+   search(inputValue, list);
 })
-
-// Event listener for keyup search
-document.addEventListener('keyup', (event) => {
-   event.preventDefault();
-   inputArea.value;
-   search(inputArea.value, list);
-})
-
-
-
-
-
-
-
