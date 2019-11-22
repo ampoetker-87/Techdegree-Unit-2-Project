@@ -117,3 +117,10 @@ body{
       background-color: #4ba6c3;
       color: #fff;
     }
+
+.no-results{
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #555;
+}
