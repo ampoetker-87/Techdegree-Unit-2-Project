@@ -14,6 +14,32 @@ const list = document.getElementsByClassName('student-item cf');
 const page = 1;
 const pageDiv = document.querySelector('.page');
 
+// The variables and styles below create the search bar, button and no results response
+let searchDiv = document.createElement('div');
+searchDiv.className = 'student-search';
+
+let pageHeader = document.querySelector('.page-header');
+pageHeader.appendChild(searchDiv);
+
+let inputArea = document.createElement('input');
+inputArea.className = 'student-search input';
+inputArea.placeholder = 'Search for students...';
+searchDiv.appendChild(inputArea);
+
+let searchButton = document.createElement('button');
+searchButton.className = 'student-search button';
+searchDiv.insertBefore(searchButton, searchDiv.lastChild);
+searchButton.textContent = 'Search';
+
+let studentNames = document.getElementsByTagName('h3');
+
+// The variable and styles below create the no results warning and initially hide it
+const noResults = document.createElement('h2');
+noResults.textContent = 'Sorry, there were no matches for your search.';
+noResults.className = 'no-results';
+pageDiv.appendChild(noResults);
+noResults.style.display = "none";
+
 /***
  * The showPage function determines which page to show and which list of 10 students to include on that page
  * The first student on the page is determined in the firstIndex variable by taking the page number, 
@@ -32,7 +58,7 @@ function showPage(list, page) {
          } else {
             list[i].style.display = 'none'
          }
-      }         
+      } 
    }
 
 // Calling the showPage function below produces our first page and list of 10 students
@@ -95,67 +121,43 @@ const removePagination = () => {
    parentNodeUl.removeChild(ul);
 }
 
-// The variables and styles below create the search bar, button and no results response
-
-let searchDiv = document.createElement('div');
-searchDiv.className = 'student-search';
-
-let pageHeader = document.querySelector('.page-header');
-pageHeader.appendChild(searchDiv);
-
-let inputArea = document.createElement('input');
-inputArea.className = 'student-search input';
-inputArea.placeholder = 'Search for students...';
-searchDiv.appendChild(inputArea);
-
-let searchButton = document.createElement('button');
-searchButton.className = 'student-search button';
-searchDiv.insertBefore(searchButton, searchDiv.lastChild);
-searchButton.textContent = 'Search';
-
-let studentNames = document.getElementsByTagName('h3');
-
-const noResults = document.createElement('h2');
-noResults.textContent = 'Sorry, there were no matches for your search.';
-noResults.className = 'no-results';
-pageDiv.appendChild(noResults);
-
 /* The function below is the search function that compares the input value against the student list
 * It then creates page links that correspond to the number of students found
 * it also returns a no results found message if there are no matches
 * when the search input is cleared it returns to the first page
 */
+
 const search = (value, list) => {
    let searchResults = [];
-   if(inputArea.value.length > 0) {
+
+   if(value.length > 0) {
       for (i = 0; i < studentNames.length; i++) {
-         if (studentNames[i].innerText.toUpperCase().includes(inputArea.value.toUpperCase())) {
+         if (studentNames[i].innerText.toUpperCase().includes(value.toUpperCase())) {
          list[i].style.display = "";
-         noResults.style.display = 'none';
          searchResults.push(studentNames[i].parentNode.parentNode);
          } else {
          list[i].style.display = "none";
          }
       }
-      if(searchResults.length === 0) {
-         noResults.style.display = '';
-         removePagination();
-         appendPageLinks(searchResults);
+         if(searchResults.length === 0) {
+            noResults.style.display = '';
+            removePagination();
+            appendPageLinks(searchResults);
+            noResults.style.display = '';
       }
       showPage(searchResults, 1)
       removePagination();
       appendPageLinks(searchResults);
    } else {
-            for (i = 0; i < list.length; i++) {
-               list[i].style.display = '';
-               noResults.style.display = 'none';
-               removePagination();
-               appendPageLinks(list);
-               showPage(list, 1);
-            }
+         for (i = 0; i < list.length; i++) {
+            list[i].style.display = '';
+            removePagination();
+            appendPageLinks(list);
+            showPage(list, 1);
+            noResults.style.display = "none";
+         }
    }
 }
-
 
 
 // Event listener for search button
@@ -171,10 +173,3 @@ document.addEventListener('keyup', (event) => {
    inputArea.value;
    search(inputArea.value, list);
 })
-
-
-
-
-
-
-
