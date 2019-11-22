@@ -11,7 +11,7 @@ FSJS project 2 - List Filter and Pagination
  */
 
 const list = document.getElementsByClassName('student-item cf');
-const page = 0;
+const page = 1;
 
 /***
  * The showPage function determines which page to show and which list of 10 students to include on that page
@@ -78,39 +78,77 @@ const appendPageLinks = (list) => {
          showPage(list, a.textContent)
       });
    }
+   if (numPages > 1) {
+      ul.firstChild.firstChild.className = "active";
+      page.appendChild(div);
+    }
 }
 
 // The appendPageLinks function is called to append the links to the bottom of the page
 appendPageLinks(list);
 
+const removePagination = () => {
+   const ul = document.getElementsByTagName('ul')[1];
+   const parentNodeUl = ul.parentNode;
+   parentNodeUl.removeChild(ul);
+}
 
 // The variables and styles below create the search bar
 
 let searchDiv = document.createElement('div');
 searchDiv.className = 'student-search';
+
 let pageHeader = document.querySelector('.page-header');
 pageHeader.appendChild(searchDiv);
+
 let inputArea = document.createElement('input');
 inputArea.className = 'student-search input';
 inputArea.placeholder = 'Search for students...';
 searchDiv.appendChild(inputArea);
+
 let searchButton = document.createElement('button');
 searchButton.className = 'student-search button';
 searchDiv.insertBefore(searchButton, searchDiv.lastChild);
 searchButton.textContent = 'Search';
+
 let studentNames = document.getElementsByTagName('h3');
+
 
 // The function below is the search function that compares the input value against the student list
 
 const search = (value, list) => {
-   for (i = 0; i < studentNames.length; i++) {
-      if (studentNames[i].innerText.toUpperCase().includes(inputArea.value.toUpperCase())) {
-      list[i].style.display = "";
-      } else {
-      list[i].style.display = "none";
+   let searchResults = [];
+   if(inputArea.value.length > 0) {
+      for (i = 0; i < studentNames.length; i++) {
+         if (studentNames[i].innerText.toUpperCase().includes(inputArea.value.toUpperCase())) {
+         list[i].style.display = "";
+         searchResults.push(studentNames[i].parentNode.parentNode);
+         showPage(searchResults, 1)
+         removePagination();
+         appendPageLinks(searchResults);
+         } else {
+         list[i].style.display = "none";
+         }
+      }
+      if(searchResults.length === 0) {
+         appendPageLinks(searchResults);
+         removePagination();
+         createElement('div');
+         let p = "<p>There are no results matching your search</p>";
+         document.getElementsByClassName('.page').appendChild(div);
+         div.appendChild(p);
+      }
+   } else {
+      for (i = 0; i < list.length; i++) {
+         list[i].style.display = '';
+         removePagination();
+         appendPageLinks(list);
+         showPage(list, 1);
       }
    }
 }
+
+
 
 // Event listener for search button
 searchButton.addEventListener('click', (event) => {
